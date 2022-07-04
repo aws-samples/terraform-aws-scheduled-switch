@@ -1,0 +1,21 @@
+# CodeBuild buildspec file for killing/reviving the MWAA env via Terraform
+
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+    commands:
+      - cd /tmp
+      - echo "Installing Terraform"
+      - curl -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+      - unzip -o terraform_${TERRAFORM_VERSION}_linux_amd64.zip && mv terraform /usr/bin
+      - terraform --version
+  build:
+    commands:
+      - ${INIT_COMMAND}
+      - ${APPLY_COMMAND}
+  post_build:
+    commands:
+      - echo Kill Switch Performed completed on `date`
