@@ -3,6 +3,23 @@ variable "region" {
   description = "AWS Region"
 }
 
+#### Networking ####
+
+variable "vpc_cidr" {
+  type        = string
+  description = "VPC CIDR for MWAA environment"
+}
+
+variable "pri_sub_cidrs" {
+  type        = list(any)
+  description = "Private subnets CIDR for MWAA environment"
+}
+
+variable "pub_sub_cidrs" {
+  type        = list(any)
+  description = "Public subnets CIDR for MWAA environment"
+}
+
 #### Killswitch ####
 variable "git_personal_access_token" {
   type        = string
@@ -150,16 +167,6 @@ variable "kms_key_arn" {
   description = "KMS CMK ARN to use by MWAA for data encryption. MUST reference the same KMS key as used by S3 bucket, if the bucket uses KMS. If not specified, the default AWS owned key for MWAA will be used for backward compatibility with version 1.0.1 of this module."
   type        = string
   default     = null
-}
-
-variable "private_subnet_ids" {
-  description = "Subnet Ids of the existing private subnets that should be used"
-  type        = list(string)
-}
-
-variable "security_group_ids" {
-  description = "Security groups IDs for the environment. At least one of the security group needs to allow MWAA resources to talk to each other, otherwise MWAA cannot be provisioned."
-  type        = list(string)
 }
 
 #### IAM ####

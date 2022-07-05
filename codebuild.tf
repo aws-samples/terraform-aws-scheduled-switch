@@ -31,7 +31,7 @@ resource "aws_codebuild_project" "killswitch_codebuild_project" {
     type            = var.source_type
     location        = var.source_location
     git_clone_depth = 1
-    buildspec       = file("buildspec.yaml")
+    buildspec       = file("${path.module}/buildspec.yaml")
   }
 
 

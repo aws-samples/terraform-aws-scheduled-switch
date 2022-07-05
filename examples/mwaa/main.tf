@@ -5,7 +5,7 @@ module "mwaa_killswitch" {
   source = "../../"
 
   git_personal_access_token = var.git_personal_access_token
-  source_type               = "GIT"
+  source_type               = "GITHUB"
   source_location           = "https://github.com/aws-samples/aws-terraform-scheduled-switch.git"
   kill_resources_schedule   = "cron(0 1/3 * * ? *)"
   revive_resources_schedule = "cron(0 1/2 * * ? *)"
@@ -17,8 +17,128 @@ module "mwaa_killswitch" {
 
 data "aws_caller_identity" "current" {}
 data "aws_partition" "current" {}
+data "aws_availability_zones" "available" {
+  state = "available"
+}
 
 # A MWAA Environment requires an IAM role (aws_iam_role), two subnets in the private zone (aws_subnet) and a versioned S3 bucket (aws_s3_bucket).
+
+#### (0) Networking ####
+
+resource "aws_vpc" "mwaa_vpc" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+}
+
+resource "aws_subnet" "mwaa_private_subnets" {
+  count = length(var.pri_sub_cidrs)
+
+  vpc_id                  = aws_vpc.mwaa_vpc.id
+  cidr_block              = element(var.pri_sub_cidrs, count.index)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = format("mwaa-private-subnet-%s", count.index)
+  }
+}
+
+resource "aws_subnet" "mwaa_public_subnets" {
+  count = length(var.pub_sub_cidrs)
+
+  vpc_id                  = aws_vpc.mwaa_vpc.id
+  cidr_block              = element(var.pub_sub_cidrs, count.index)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = format("mwaa-public-subnet-%s", count.index)
+  }
+}
+
+resource "aws_internet_gateway" "internet_gateway" {
+  vpc_id = aws_vpc.mwaa_vpc.id
+}
+
+resource "aws_nat_gateway" "nat_gateway" {
+  count         = length(var.pri_sub_cidrs)
+  allocation_id = element(aws_eip.eip.*.id, count.index)
+  subnet_id     = element(aws_subnet.mwaa_public_subnets.*.id, count.index)
+  depends_on    = [aws_internet_gateway.internet_gateway]
+}
+
+resource "aws_eip" "eip" {
+  count      = length(var.pri_sub_cidrs)
+  vpc        = true
+  depends_on = [aws_internet_gateway.internet_gateway]
+}
+
+#  Routing table for private subnets
+resource "aws_route_table" "private_route_tables" {
+  count = length(var.pri_sub_cidrs)
+
+  vpc_id = aws_vpc.mwaa_vpc.id
+}
+
+#  Routing table for public subnet
+resource "aws_route_table" "public_route_tables" {
+  count = length(var.pub_sub_cidrs)
+
+  vpc_id = aws_vpc.mwaa_vpc.id
+}
+
+resource "aws_route" "pub_route_igw" {
+  count                  = length(var.pub_sub_cidrs)
+  route_table_id         = element(aws_route_table.public_route_tables.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.internet_gateway.id
+}
+
+resource "aws_route" "prv_route_nat" {
+  count                  = length(var.pri_sub_cidrs)
+  route_table_id         = element(aws_route_table.private_route_tables.*.id, count.index)
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = element(aws_nat_gateway.nat_gateway.*.id, count.index)
+}
+
+#  Private Subnet Route table associations
+resource "aws_route_table_association" "prt_associations" {
+  count = length(var.pri_sub_cidrs)
+
+  subnet_id      = element(aws_subnet.mwaa_private_subnets.*.id, count.index)
+  route_table_id = element(aws_route_table.private_route_tables.*.id, count.index)
+}
+
+#  Public Subnet Route table associations
+resource "aws_route_table_association" "pubrt_associations" {
+  count = length(var.pub_sub_cidrs)
+
+  subnet_id      = element(aws_subnet.mwaa_public_subnets.*.id, count.index)
+  route_table_id = element(aws_route_table.public_route_tables.*.id, count.index)
+}
+
+resource "aws_security_group" "this" {
+  vpc_id = aws_vpc.mwaa_vpc.id
+  name   = "mwaa-no-ingress-sg"
+  tags = merge({
+    Name = "mwaa-no-ingress-sg"
+  }, var.tags)
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    self      = true
+  }
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+    cidr_blocks = [
+      "0.0.0.0/0"
+    ]
+  }
+}
 
 #### (1) MWAA Bucket ####
 resource "aws_s3_bucket" "this" {
@@ -289,8 +409,8 @@ resource "aws_mwaa_environment" "this" {
   environment_class  = var.environment_class
   airflow_version    = var.airflow_version
 
-  source_bucket_arn              = aws_s3_bucket.this.arn
-  dag_s3_path                    = var.dag_s3_path
+  source_bucket_arn = aws_s3_bucket.this.arn
+  dag_s3_path       = var.dag_s3_path
 
   logging_configuration {
     dag_processing_logs {
@@ -320,8 +440,10 @@ resource "aws_mwaa_environment" "this" {
   }
 
   network_configuration {
-    security_group_ids = var.security_group_ids
-    subnet_ids         = var.private_subnet_ids
+    security_group_ids = [
+      aws_security_group.this.id
+    ]
+    subnet_ids = aws_subnet.mwaa_private_subnets[*].id
   }
 
   webserver_access_mode           = var.webserver_access_mode

@@ -1,5 +1,4 @@
 ####
-
 variable "git_personal_access_token" {
   type        = string
   description = "For GitHub or GitHub Enterprise, this is the personal access token."
@@ -29,4 +28,19 @@ variable "revive_resources_schedule" {
 variable "terraform_version" {
   type        = string
   description = "Version of Terraform."
+}
+
+variable "init_command" {
+  type        = string
+  description = "Terraform command used to initialize working directory."
+}
+
+variable "kill_command" {
+  type        = string
+  description = "Terraform command to destroy the target resources."
+}
+
+variable "revive_command" {
+  type        = string
+  description = "Terraform command to revive/recreate the target resources."
 }
