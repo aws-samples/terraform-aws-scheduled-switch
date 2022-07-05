@@ -9,16 +9,10 @@ module "mwaa_killswitch" {
   source_location           = "https://github.com/aws-samples/aws-terraform-scheduled-switch.git"
   kill_resources_schedule   = "cron(0 1/3 * * ? *)"
   revive_resources_schedule = "cron(0 1/2 * * ? *)"
-  init_command              = "terraform init -chdir=examples/mwaa -input=false"
+  init_command              = "terraform init -backend-config=\\\"bucket=${var.tf_backend_bucket}\\\" -backend-config=\\\"key=${var.tf_backend_key}\\\" -backend-config=\\\"region=${var.tf_backend_region}\\\" -chdir=examples/mwaa -input=false"
   kill_command              = "terraform apply -chdir=examples/mwaa -input=false -target=aws_mwaa_environment.this -var enabled=false -auto-approve"
   revive_command            = "terraform apply -chdir=examples/mwaa -input=false -target=aws_mwaa_environment.this -var enabled=true -auto-approve"
   terraform_version         = var.terraform_version
-}
-
-data "aws_caller_identity" "current" {}
-data "aws_partition" "current" {}
-data "aws_availability_zones" "available" {
-  state = "available"
 }
 
 # A MWAA Environment requires an IAM role (aws_iam_role), two subnets in the private zone (aws_subnet) and a versioned S3 bucket (aws_s3_bucket).

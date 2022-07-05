@@ -14,8 +14,9 @@ phases:
       - terraform --version
   build:
     commands:
-      - ${INIT_COMMAND}
-      - ${APPLY_COMMAND}
+      - cd ${CODEBUILD_SRC_DIR}
+      - ${TF_INIT_COMMAND}
+      - ${TF_APPLY_COMMAND}
   post_build:
     commands:
       - echo Kill Switch Performed completed on `date`

@@ -3,6 +3,23 @@ variable "region" {
   description = "AWS Region"
 }
 
+#### Terraform backend ####
+
+variable "tf_backend_bucket" {
+  type = string
+  description = "S3 Backend bucket name"  
+}
+
+variable "tf_backend_key" {
+  type = string
+  description = "S3 object key to terraform state file"
+}
+
+variable "tf_backend_region" {
+  type = string
+  description = "AWS region where backend bucket is in"
+}
+
 #### Networking ####
 
 variable "vpc_cidr" {
