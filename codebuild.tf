@@ -103,7 +103,8 @@ resource "aws_iam_role_policy" "killswitch_codebuild_policy" {
             "ec2:DescribeSecurityGroups",
             "ec2:DescribeSubnets",
             "ec2:DescribeVpcs",
-            "ec2:DescribeRouteTables"
+            "ec2:DescribeRouteTables",
+            "ec2:DescribeAvailabilityZones"
         ],
         "Resource": "*"
     },
