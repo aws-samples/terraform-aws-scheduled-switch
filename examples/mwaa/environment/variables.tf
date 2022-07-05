@@ -3,23 +3,6 @@ variable "region" {
   description = "AWS Region"
 }
 
-#### Terraform backend ####
-
-variable "tf_backend_bucket" {
-  type = string
-  description = "S3 Backend bucket name"  
-}
-
-variable "tf_backend_key" {
-  type = string
-  description = "S3 object key to terraform state file"
-}
-
-variable "tf_backend_region" {
-  type = string
-  description = "AWS region where backend bucket is in"
-}
-
 #### Networking ####
 
 variable "vpc_cidr" {
@@ -37,23 +20,7 @@ variable "pub_sub_cidrs" {
   description = "Public subnets CIDR for MWAA environment"
 }
 
-#### Killswitch ####
-variable "git_personal_access_token" {
-  type        = string
-  description = "For GitHub or GitHub Enterprise, this is the personal access token."
-  sensitive   = true
-}
-
-variable "terraform_version" {
-  type        = string
-  description = "Version of Terraform."
-}
-
 #### S3 ####
-variable "s3_bucket_name" {
-  type        = string
-  description = "Name of the bucket in which DAGs, Plugin and Requirements are put"
-}
 variable "dag_s3_path" {
   description = "Relative path of the dags folder within the source bucket"
   type        = string

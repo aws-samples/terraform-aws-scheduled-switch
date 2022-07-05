@@ -2,6 +2,9 @@
 
 version: 0.2
 
+env:
+  shell: bash
+
 phases:
   install:
     runtime-versions:
@@ -15,8 +18,8 @@ phases:
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}
-      - ${TF_INIT_COMMAND}
-      - ${TF_APPLY_COMMAND}
+      - bash -c "${TF_INIT_COMMAND}"
+      - bash -c "${TF_APPLY_COMMAND}"
   post_build:
     commands:
       - echo Kill Switch Performed completed on `date`
