@@ -1,6 +1,11 @@
+## MWAA Use Case Example
+
 environment directory contains MWAA infrastructure IaC that will be used to be spun up and down.
 
 killswitch directory utilizes the killswitch root module of this repository.
+
+# Architecture
+![MWAA Killswitch](../../docs/mwaa-example-architecture.png)
 
 # Inputs
 

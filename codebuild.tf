@@ -104,7 +104,10 @@ resource "aws_iam_role_policy" "killswitch_codebuild_policy" {
             "ec2:DescribeSubnets",
             "ec2:DescribeVpcs",
             "ec2:DescribeRouteTables",
-            "ec2:DescribeAvailabilityZones"
+            "ec2:DescribeAvailabilityZones",
+            "ec2:DescribeVpcClassicLink",
+            "ec2:DescribeVpcClassicLinkDnsSupport",
+            "ec2:DescribeVpcAttribute"
         ],
         "Resource": "*"
     },
