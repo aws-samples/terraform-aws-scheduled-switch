@@ -1,0 +1,25 @@
+name: Generate terraform docs
+on:
+  - pull_request
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.pull_request.head.ref }}
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+    - name: Render terraform docs and push changes back to PR
+      uses: terraform-docs/gh-actions@v1.0.0
+      with:
+        working-dir: .,examples/mwaa/environment,examples/mwaa/killswitch
+        args: --sort-by required
+        indention: 3
+        output-file: README.md
+        output-method: inject
+        git-push: "true"
+        git-commit-message: "terraform-docs: automated commit"
