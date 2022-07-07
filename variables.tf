@@ -55,3 +55,15 @@ variable "revive_command" {
   type        = string
   description = "Terraform command to revive/recreate the target resources."
 }
+
+variable "kill_rule_enabled" {
+  type        = string
+  description = "Whether the rule should be enabled."
+  default     = true
+}
+
+variable "revive_rule_enabled" {
+  type        = string
+  description = "Whether the rule should be enabled."
+  default     = true
+}

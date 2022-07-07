@@ -1,6 +1,7 @@
 resource "aws_cloudwatch_event_rule" "kill_rule" {
   name        = "KillEvent"
   description = "Scheduled event to kill resources."
+  is_enabled  = var.kill_rule_enabled
 
   schedule_expression = var.kill_resources_schedule
 
@@ -9,6 +10,7 @@ resource "aws_cloudwatch_event_rule" "kill_rule" {
 resource "aws_cloudwatch_event_rule" "revive_rule" {
   name        = "ReviveEvent"
   description = "Scheduled event to revive resources."
+  is_enabled  = var.revive_rule_enabled
 
   schedule_expression = var.revive_resources_schedule
 
@@ -92,13 +94,13 @@ data "aws_iam_policy_document" "codebuild_policy" {
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name_prefix               = "StartKillSwitchRole"
+  name_prefix        = "StartKillSwitchRole"
   assume_role_policy = data.aws_iam_policy_document.codebuild_trust.json
 }
 
 resource "aws_iam_policy" "codebuild_policy" {
-  name_prefix   = "StartKillSwitchPolicy"
-  policy = data.aws_iam_policy_document.codebuild_policy.json
+  name_prefix = "StartKillSwitchPolicy"
+  policy      = data.aws_iam_policy_document.codebuild_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "codebuild_attachment" {
