@@ -7,7 +7,7 @@ plan.out.json
 
 # .tfstate files
 *.tfstate
-*.tfstate.*
+*.tfstate.* 
 
 # Crash log files
 crash.log
@@ -40,3 +40,4 @@ go.sum
 
 # IDE
 .idea
+.DS_Store
