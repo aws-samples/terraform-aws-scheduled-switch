@@ -71,6 +71,8 @@ No modules.
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Version of Terraform. | `string` | n/a | yes |
 | <a name="input_tf_backend_bucket"></a> [tf\_backend\_bucket](#input\_tf\_backend\_bucket) | S3 Backend bucket name | `string` | n/a | yes |
 | <a name="input_tf_backend_key"></a> [tf\_backend\_key](#input\_tf\_backend\_key) | S3 object key to terraform state file | `string` | n/a | yes |
+| <a name="input_kill_rule_enabled"></a> [kill\_rule\_enabled](#input\_kill\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
+| <a name="input_revive_rule_enabled"></a> [revive\_rule\_enabled](#input\_revive\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
 
 ### Outputs
 
