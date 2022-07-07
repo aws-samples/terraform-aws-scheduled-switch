@@ -66,7 +66,7 @@ No modules.
 | <a name="input_kill_resources_schedule"></a> [kill\_resources\_schedule](#input\_kill\_resources\_schedule) | Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details. | `string` | n/a | yes |
 | <a name="input_revive_command"></a> [revive\_command](#input\_revive\_command) | Terraform command to revive/recreate the target resources. | `string` | n/a | yes |
 | <a name="input_revive_resources_schedule"></a> [revive\_resources\_schedule](#input\_revive\_resources\_schedule) | Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details. | `string` | n/a | yes |
-| <a name="input_source_location"></a> [source\_location](#input\_source\_location) | Information about the location of the source code to be built. | `string` | n/a | yes |
+| <a name="input_source_location"></a> [source\_location](#input\_source\_location) | Information about the location of the source code of the Terraform configuration that is being managed. | `string` | n/a | yes |
 | <a name="input_source_type"></a> [source\_type](#input\_source\_type) | The type of repository that contains the source code to be built. | `string` | n/a | yes |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Version of Terraform. | `string` | n/a | yes |
 | <a name="input_tf_backend_bucket"></a> [tf\_backend\_bucket](#input\_tf\_backend\_bucket) | S3 Backend bucket name | `string` | n/a | yes |
