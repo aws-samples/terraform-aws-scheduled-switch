@@ -92,12 +92,12 @@ data "aws_iam_policy_document" "codebuild_policy" {
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name               = "StartKillSwitchRole"
+  name_prefix               = "StartKillSwitchRole"
   assume_role_policy = data.aws_iam_policy_document.codebuild_trust.json
 }
 
 resource "aws_iam_policy" "codebuild_policy" {
-  name   = "StartKillSwitchPolicy"
+  name_prefix   = "StartKillSwitchPolicy"
   policy = data.aws_iam_policy_document.codebuild_policy.json
 }
 

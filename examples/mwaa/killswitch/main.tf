@@ -4,7 +4,7 @@
 module "mwaa_killswitch" {
   source = "../../../"
 
-  git_personal_access_token = var.git_personal_access_token
+  git_personal_access_token = jsondecode(data.aws_secretsmanager_secret_version.github_token_secret_version.secret_string)["TOKEN"]
   source_type               = "GITHUB"
   source_location           = "https://github.com/aws-samples/aws-terraform-scheduled-switch.git"
   kill_resources_schedule   = "cron(0 1/3 * * ? *)"

@@ -39,7 +39,7 @@ resource "aws_codebuild_project" "killswitch_codebuild_project" {
 }
 
 resource "aws_iam_role" "killswitch_codebuild_role" {
-  name = "killswitch-codebuild-role"
+  name_prefix = "killswitch-codebuild-role"
 
   assume_role_policy = <<EOF
 {

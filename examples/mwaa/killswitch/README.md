@@ -2,6 +2,16 @@
 
 ## Usage
 
+1. Create a terraform.tfvars file and specify the tf_backend_bucket, tf_backend_key and tf_backend_region variables. 
+2. Create a Github personal access token with READ repository permissions https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+   1. This token will be used for the CodeBuild-GitHub integration for fetching the MWAA environment Terraform IaC
+3. Create an AWS Secrets Manager secret with the following name and key-value pair:
+   1. Secret name: GITHUB_PERSONAL_ACCESS_TOKEN
+   2. Key: TOKEN
+   3. Value: {Paste the value of the token created in step 2}
+4. Deploy the killswitch resources in this directory
+
+
 <!-- BEGIN_TF_DOCS -->
 ### Requirements
 

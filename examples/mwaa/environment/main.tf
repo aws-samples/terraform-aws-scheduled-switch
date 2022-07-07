@@ -162,13 +162,12 @@ resource "aws_s3_object" "dags" {
 
 #### (3) IAM ####
 resource "aws_iam_role" "this" {
-  name               = "mwaa-${var.environment_name}-execution-role"
+  name_prefix               = "${var.environment_name}-execution-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = var.tags
 }
 
 resource "aws_iam_role_policy" "this" {
-  name   = "mwaa-${var.environment_name}-execution-policy"
   policy = data.aws_iam_policy_document.this.json
   role   = aws_iam_role.this.id
 }

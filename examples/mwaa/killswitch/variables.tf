@@ -21,10 +21,9 @@ variable "tf_backend_region" {
 }
 
 #### Killswitch ####
-variable "git_personal_access_token" {
+variable "github_token_secret_name" {
   type        = string
-  description = "For GitHub or GitHub Enterprise, this is the personal access token."
-  sensitive   = true
+  description = "Secrets Manager secret name that stores the GitHub personal access token."
 }
 
 variable "terraform_version" {
