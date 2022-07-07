@@ -42,13 +42,13 @@ No modules.
 | [aws_cloudwatch_event_rule.revive_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_target.kill_resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_cloudwatch_event_target.revive_resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
-| [aws_codebuild_project.killswitch_codebuild_project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
+| [aws_codebuild_project.switch_codebuild_project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
 | [aws_codebuild_source_credential.git_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_source_credential) | resource |
 | [aws_iam_policy.codebuild_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
 | [aws_iam_role.codebuild_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.killswitch_codebuild_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.killswitch_codebuild_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.killswitch_codebuild_s3_backend_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role.switch_codebuild_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.switch_codebuild_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.switch_codebuild_s3_backend_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy_attachment.codebuild_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.s3_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_caller_identity.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
@@ -66,11 +66,13 @@ No modules.
 | <a name="input_kill_resources_schedule"></a> [kill\_resources\_schedule](#input\_kill\_resources\_schedule) | Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details. | `string` | n/a | yes |
 | <a name="input_revive_command"></a> [revive\_command](#input\_revive\_command) | Terraform command to revive/recreate the target resources. | `string` | n/a | yes |
 | <a name="input_revive_resources_schedule"></a> [revive\_resources\_schedule](#input\_revive\_resources\_schedule) | Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details. | `string` | n/a | yes |
-| <a name="input_source_location"></a> [source\_location](#input\_source\_location) | Information about the location of the source code to be built. | `string` | n/a | yes |
+| <a name="input_source_location"></a> [source\_location](#input\_source\_location) | Information about the location of the source code of the Terraform configuration that is being managed. | `string` | n/a | yes |
 | <a name="input_source_type"></a> [source\_type](#input\_source\_type) | The type of repository that contains the source code to be built. | `string` | n/a | yes |
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Version of Terraform. | `string` | n/a | yes |
 | <a name="input_tf_backend_bucket"></a> [tf\_backend\_bucket](#input\_tf\_backend\_bucket) | S3 Backend bucket name | `string` | n/a | yes |
 | <a name="input_tf_backend_key"></a> [tf\_backend\_key](#input\_tf\_backend\_key) | S3 object key to terraform state file | `string` | n/a | yes |
+| <a name="input_kill_rule_enabled"></a> [kill\_rule\_enabled](#input\_kill\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
+| <a name="input_revive_rule_enabled"></a> [revive\_rule\_enabled](#input\_revive\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
 
 ### Outputs
 

@@ -23,4 +23,4 @@ phases:
       - bash -c "${TF_APPLY_COMMAND}"
   post_build:
     commands:
-      - echo Kill Switch Performed completed on `date`
+      - echo Switch completed on `date`
