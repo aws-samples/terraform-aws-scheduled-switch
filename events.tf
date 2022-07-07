@@ -18,7 +18,7 @@ resource "aws_cloudwatch_event_rule" "revive_rule" {
 
 resource "aws_cloudwatch_event_target" "kill_resources" {
   target_id = "KillResources"
-  arn       = aws_codebuild_project.killswitch_codebuild_project.arn
+  arn       = aws_codebuild_project.switch_codebuild_project.arn
   input     = <<DOC
 {
   "environmentVariablesOverride": [
@@ -47,7 +47,7 @@ DOC
 
 resource "aws_cloudwatch_event_target" "revive_resources" {
   target_id = "ReviveResources"
-  arn       = aws_codebuild_project.killswitch_codebuild_project.arn
+  arn       = aws_codebuild_project.switch_codebuild_project.arn
   input     = <<DOC
 {
   "environmentVariablesOverride": [
@@ -89,17 +89,17 @@ data "aws_iam_policy_document" "codebuild_policy" {
   statement {
     effect    = "Allow"
     actions   = ["codebuild:StartBuild"]
-    resources = [aws_codebuild_project.killswitch_codebuild_project.arn]
+    resources = [aws_codebuild_project.switch_codebuild_project.arn]
   }
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name_prefix        = "StartKillSwitchRole"
+  name_prefix        = "StartSwitchRole"
   assume_role_policy = data.aws_iam_policy_document.codebuild_trust.json
 }
 
 resource "aws_iam_policy" "codebuild_policy" {
-  name_prefix = "StartKillSwitchPolicy"
+  name_prefix = "StartSwitchPolicy"
   policy      = data.aws_iam_policy_document.codebuild_policy.json
 }
 

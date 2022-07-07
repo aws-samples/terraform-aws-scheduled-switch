@@ -25,7 +25,7 @@ variable "source_location" {
   description = "Information about the location of the source code to be built."
 }
 
-# Killswitch EventBridge variables
+# switch EventBridge variables
 variable "kill_resources_schedule" {
   type        = string
   description = "Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details."

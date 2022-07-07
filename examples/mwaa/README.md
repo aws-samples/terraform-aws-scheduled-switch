@@ -2,10 +2,10 @@
 
 environment directory contains MWAA infrastructure IaC that will be used to be spun up and down.
 
-killswitch directory utilizes the killswitch root module of this repository.
+switch directory utilizes the switch root module of this repository.
 
 # Architecture
-![MWAA Killswitch](../../docs/switch-with-mwaa-example-architecture.png)
+![MWAA switch](../../docs/switch-with-mwaa-example-architecture.png)
 
 # Usage
 

@@ -16,7 +16,7 @@ jobs:
     - name: Render terraform docs and push changes back to PR
       uses: terraform-docs/gh-actions@v1.0.0
       with:
-        working-dir: .,examples/mwaa/environment,examples/mwaa/killswitch
+        working-dir: .,examples/mwaa/environment,examples/mwaa/switch
         args: --sort-by required
         indention: 3
         output-file: README.md

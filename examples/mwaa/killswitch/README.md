@@ -1,4 +1,4 @@
-## Killswitch
+## switch
 
 ## Usage
 
@@ -9,7 +9,7 @@
    1. Secret name: GITHUB_PERSONAL_ACCESS_TOKEN
    2. Key: TOKEN
    3. Value: {Paste the value of the token created in step 2}
-4. Deploy the killswitch resources in this directory
+4. Deploy the switch resources in this directory
 
 
 <!-- BEGIN_TF_DOCS -->
@@ -30,7 +30,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_mwaa_killswitch"></a> [mwaa\_killswitch](#module\_mwaa\_killswitch) | ../../../ | n/a |
+| <a name="module_mwaa_switch"></a> [mwaa\_switch](#module\_mwaa\_switch) | ../../../ | n/a |
 
 ### Resources
 

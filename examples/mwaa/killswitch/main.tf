@@ -1,7 +1,7 @@
 # Copyright © 2022 Amazon Web Services, Inc. or its affiliates. All Rights Reserved. This AWS Content is provided subject to the terms of the AWS Customer Agreement available at http://aws.amazon.com/agreement or other written agreement between Customer and either Amazon Web Services, Inc. or Amazon Web Services EMEA SARL or both."
 
-#### (0) Killswitch module ####
-module "mwaa_killswitch" {
+#### (0) switch module ####
+module "mwaa_switch" {
   source = "../../../"
 
   git_personal_access_token = jsondecode(data.aws_secretsmanager_secret_version.github_token_secret_version.secret_string)["TOKEN"]

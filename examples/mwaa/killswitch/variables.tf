@@ -20,7 +20,7 @@ variable "tf_backend_region" {
   description = "AWS region where backend bucket is in"
 }
 
-#### Killswitch ####
+#### switch ####
 variable "github_token_secret_name" {
   type        = string
   description = "Secrets Manager secret name that stores the GitHub personal access token."

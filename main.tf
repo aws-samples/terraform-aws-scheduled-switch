@@ -3,11 +3,11 @@ resource "aws_codebuild_source_credential" "git_credentials" {
   server_type = "GITHUB"
   token       = var.git_personal_access_token
 }
-resource "aws_codebuild_project" "killswitch_codebuild_project" {
-  name                   = "mwaa-killswitch-codebuild"
+resource "aws_codebuild_project" "switch_codebuild_project" {
+  name                   = "mwaa-switch-codebuild"
   description            = "CodeBuild project for spinning up and down MWAA via Terraform."
   build_timeout          = "60"
-  service_role           = aws_iam_role.killswitch_codebuild_role.arn
+  service_role           = aws_iam_role.switch_codebuild_role.arn
   concurrent_build_limit = 1
   artifacts {
     type = "NO_ARTIFACTS"
@@ -22,8 +22,8 @@ resource "aws_codebuild_project" "killswitch_codebuild_project" {
 
   logs_config {
     cloudwatch_logs {
-      group_name  = "killswitch-codebuild-log-group"
-      stream_name = "killswitch-codebuild-log-stream"
+      group_name  = "switch-codebuild-log-group"
+      stream_name = "switch-codebuild-log-stream"
     }
   }
 
@@ -38,8 +38,8 @@ resource "aws_codebuild_project" "killswitch_codebuild_project" {
   tags = {}
 }
 
-resource "aws_iam_role" "killswitch_codebuild_role" {
-  name_prefix = "killswitch-codebuild-role"
+resource "aws_iam_role" "switch_codebuild_role" {
+  name_prefix = "switch-codebuild-role"
 
   assume_role_policy = <<EOF
 {
@@ -57,8 +57,8 @@ resource "aws_iam_role" "killswitch_codebuild_role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "killswitch_codebuild_policy" {
-  role = aws_iam_role.killswitch_codebuild_role.name
+resource "aws_iam_role_policy" "switch_codebuild_policy" {
+  role = aws_iam_role.switch_codebuild_role.name
 
   policy = <<POLICY
 {
@@ -169,8 +169,8 @@ resource "aws_iam_role_policy" "killswitch_codebuild_policy" {
 POLICY  
 }
 
-resource "aws_iam_role_policy" "killswitch_codebuild_s3_backend_policy" {
-  role = aws_iam_role.killswitch_codebuild_role.name
+resource "aws_iam_role_policy" "switch_codebuild_s3_backend_policy" {
+  role = aws_iam_role.switch_codebuild_role.name
 
   policy = <<POLICY
 {
@@ -193,6 +193,6 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "s3_policy" {
-  role       = aws_iam_role.killswitch_codebuild_role.name
+  role       = aws_iam_role.switch_codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
 }
