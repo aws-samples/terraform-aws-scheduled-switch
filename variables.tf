@@ -22,7 +22,7 @@ variable "source_type" {
 
 variable "source_location" {
   type        = string
-  description = "Information about the location of the source code to be built."
+  description = "Information about the location of the source code of the Terraform configuration that is being managed."
 }
 
 # switch EventBridge variables
