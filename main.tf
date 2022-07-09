@@ -5,7 +5,7 @@ resource "aws_codebuild_source_credential" "git_credentials" {
 }
 resource "aws_codebuild_project" "switch_codebuild_project" {
   name                   = "mwaa-switch-codebuild"
-  description            = "CodeBuild project for spinning up and down MWAA via Terraform."
+  description            = "CodeBuild project that behaves as a switch for Terraform resources."
   build_timeout          = "60"
   service_role           = aws_iam_role.switch_codebuild_role.arn
   concurrent_build_limit = 1
