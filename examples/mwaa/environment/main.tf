@@ -10,6 +10,10 @@ resource "aws_vpc" "mwaa_vpc" {
   enable_dns_hostnames = true
 }
 
+# resource "aws_default_security_group" "default" {
+#   vpc_id = aws_vpc.mwaa_vpc.id
+# }
+
 resource "aws_subnet" "mwaa_private_subnets" {
   count = length(var.pri_sub_cidrs)
 
@@ -98,8 +102,8 @@ resource "aws_route_table_association" "pubrt_associations" {
 }
 
 resource "aws_security_group" "this" {
-  vpc_id = aws_vpc.mwaa_vpc.id
-  name   = "mwaa-no-ingress-sg"
+  vpc_id      = aws_vpc.mwaa_vpc.id
+  name        = "mwaa-no-ingress-sg"
   tags = merge({
     Name = "mwaa-no-ingress-sg"
   }, var.tags)
@@ -117,6 +121,61 @@ resource "aws_security_group" "this" {
       "0.0.0.0/0"
     ]
   }
+}
+
+resource "aws_flow_log" "vpc_flow_logs" {
+  iam_role_arn    = aws_iam_role.vpc_flow_log_role.arn
+  log_destination = aws_cloudwatch_log_group.vpc_flow_log_group.arn
+  traffic_type    = "ALL"
+  vpc_id          = aws_vpc.mwaa_vpc.id
+}
+
+resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
+  name = "MWAAVPCFlowLogs"
+}
+
+resource "aws_iam_role" "vpc_flow_log_role" {
+  name = "VPCFlowLogRole"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+}
+
+resource "aws_iam_role_policy" "vpc_flow_log_role_policy" {
+  name = "VPCFlowLogRolePolicy"
+  role = aws_iam_role.vpc_flow_log_role.id
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogGroups",
+        "logs:DescribeLogStreams"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+EOF
 }
 
 #### (1) MWAA Bucket ####
@@ -162,7 +221,7 @@ resource "aws_s3_object" "dags" {
 
 #### (3) IAM ####
 resource "aws_iam_role" "this" {
-  name_prefix               = "${var.environment_name}-execution-role"
+  name_prefix        = "${var.environment_name}-role"
   assume_role_policy = data.aws_iam_policy_document.assume_role.json
   tags               = var.tags
 }
@@ -187,6 +246,13 @@ data "aws_iam_policy_document" "assume_role" {
       "sts:AssumeRole"
     ]
   }
+}
+
+data "aws_iam_policy_document" "this" {
+  source_policy_documents = [
+    data.aws_iam_policy_document.default.json,
+    var.additional_execution_role_policy_document_json
+  ]
 }
 
 data "aws_iam_policy_document" "default" {
@@ -365,13 +431,6 @@ data "aws_iam_policy_document" "default" {
       "*",
     ]
   }
-}
-
-data "aws_iam_policy_document" "this" {
-  source_policy_documents = [
-    data.aws_iam_policy_document.default.json,
-    var.additional_execution_role_policy_document_json
-  ]
 }
 
 #### (4) MWAA Environment ####
