@@ -57,118 +57,6 @@ resource "aws_iam_role" "switch_codebuild_role" {
 EOF
 }
 
-resource "aws_iam_role_policy" "switch_codebuild_policy" {
-  role = aws_iam_role.switch_codebuild_role.name
-
-  policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Resource": [
-        "*"
-      ],
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ]
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-          "iam:ListRolePolicies",
-          "iam:GetRole",
-          "iam:GetRolePolicy",
-          "iam:ListAttachedRolePolicies"
-        ],
-        "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": "airflow:*",
-        "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "iam:CreateServiceLinkedRole"
-        ],
-        "Resource": "arn:aws:iam::*:role/aws-service-role/airflow.amazonaws.com/AWSServiceRoleForAmazonMWAA"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "ec2:DescribeSecurityGroups",
-            "ec2:DescribeSubnets",
-            "ec2:DescribeVpcs",
-            "ec2:DescribeRouteTables",
-            "ec2:DescribeAvailabilityZones",
-            "ec2:DescribeVpcClassicLink",
-            "ec2:DescribeVpcClassicLinkDnsSupport",
-            "ec2:DescribeVpcAttribute"
-        ],
-        "Resource": "*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "kms:DescribeKey",
-            "kms:ListGrants",
-            "kms:CreateGrant",
-            "kms:RevokeGrant",
-            "kms:Decrypt",
-            "kms:Encrypt",
-            "kms:GenerateDataKey*",
-            "kms:ReEncrypt*"
-        ],
-        "Resource": "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/aws/airflow"
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "iam:PassRole"
-        ],
-        "Resource": "*",
-        "Condition": {
-            "StringLike": {
-                "iam:PassedToService": "airflow.amazonaws.com"
-            }
-        }
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "s3:GetEncryptionConfiguration"
-        ],
-        "Resource": "arn:aws:s3:::*"
-    },
-    {
-        "Effect": "Allow",
-        "Action": "ec2:CreateVpcEndpoint",
-        "Resource": [
-            "arn:aws:ec2:*:*:vpc-endpoint/*",
-            "arn:aws:ec2:*:*:vpc/*",
-            "arn:aws:ec2:*:*:subnet/*",
-            "arn:aws:ec2:*:*:security-group/*"
-        ]
-    },
-    {
-        "Effect": "Allow",
-        "Action": [
-            "ec2:CreateNetworkInterface"
-        ],
-        "Resource": [
-            "arn:aws:ec2:*:*:subnet/*",
-            "arn:aws:ec2:*:*:network-interface/*"
-        ]
-    }
-  ]
-}
-POLICY  
-}
-
 resource "aws_iam_role_policy" "switch_codebuild_s3_backend_policy" {
   role = aws_iam_role.switch_codebuild_role.name
 
@@ -195,4 +83,9 @@ POLICY
 resource "aws_iam_role_policy_attachment" "s3_policy" {
   role       = aws_iam_role.switch_codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "switch_additional_policy" {
+  role       = aws_iam_role.switch_codebuild_role.name
+  policy_arn = var.switch_additional_policy_arn
 }

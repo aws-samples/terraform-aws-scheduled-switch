@@ -10,9 +10,9 @@ resource "aws_vpc" "mwaa_vpc" {
   enable_dns_hostnames = true
 }
 
-# resource "aws_default_security_group" "default" {
-#   vpc_id = aws_vpc.mwaa_vpc.id
-# }
+resource "aws_default_security_group" "default" {
+  vpc_id = aws_vpc.mwaa_vpc.id
+}
 
 resource "aws_subnet" "mwaa_private_subnets" {
   count = length(var.pri_sub_cidrs)
@@ -102,8 +102,8 @@ resource "aws_route_table_association" "pubrt_associations" {
 }
 
 resource "aws_security_group" "this" {
-  vpc_id      = aws_vpc.mwaa_vpc.id
-  name        = "mwaa-no-ingress-sg"
+  vpc_id = aws_vpc.mwaa_vpc.id
+  name   = "mwaa-no-ingress-sg"
   tags = merge({
     Name = "mwaa-no-ingress-sg"
   }, var.tags)

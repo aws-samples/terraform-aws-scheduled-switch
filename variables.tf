@@ -25,6 +25,14 @@ variable "source_location" {
   description = "Information about the location of the source code of the Terraform configuration that is being managed."
 }
 
+# CodeBuild variables
+
+variable "switch_additional_policy_arn" {
+  type        = string
+  description = "ARN of additional IAM policy for CodeBuild."
+  default     = null
+}
+
 # switch EventBridge variables
 variable "kill_resources_schedule" {
   type        = string

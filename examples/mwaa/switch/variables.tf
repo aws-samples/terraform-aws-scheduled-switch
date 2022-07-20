@@ -5,6 +5,16 @@ variable "region" {
 
 #### switch ####
 
+variable "tf_backend_bucket" {
+  type        = string
+  description = "S3 Backend bucket name"
+}
+
+variable "tf_backend_key" {
+  type        = string
+  description = "S3 object key to terraform state file"
+}
+
 variable "source_location" {
   type        = string
   description = "Information about the location of the source code of the Terraform configuration that is being managed."
