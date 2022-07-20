@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v1.0.1...v1.1.0) (2022-07-20)
+
+
+### Features
+
+* parameterized codebuild role ([22d85bb](https://github.com/aws-samples/aws-terraform-scheduled-switch/commit/22d85bb3ca089756d35cd1081ec568e46cf5f574))
+
 ### [1.0.1](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v1.0.0...v1.0.1) (2022-07-20)
 
 
