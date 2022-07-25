@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [2.0.1](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v2.0.0...v2.0.1) (2022-07-25)
+
+
+### Bug Fixes
+
+* added permission for version param ([1dae3e4](https://github.com/aws-samples/aws-terraform-scheduled-switch/commit/1dae3e499231727761db25f98381a9b3801550fa))
+
 ## [2.0.0](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v1.1.0...v2.0.0) (2022-07-25)
 
 
