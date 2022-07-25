@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v1.1.0...v2.0.0) (2022-07-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactored to use SSM instead of variables override
+* added dependencies and use name_prefix
+* removed target_id and added random suffix
+
+### Features
+
+* added dependencies and use name_prefix ([dae678b](https://github.com/aws-samples/aws-terraform-scheduled-switch/commit/dae678b370f53e52a9975d6c38418b00c955618a))
+* refactored to use SSM instead of variables override ([82180de](https://github.com/aws-samples/aws-terraform-scheduled-switch/commit/82180de7eff0c3a089430097b852195d1c4ae2dd))
+* removed target_id and added random suffix ([d9e024f](https://github.com/aws-samples/aws-terraform-scheduled-switch/commit/d9e024f87a88d8d6135095d3750c399dd143fccb))
+
 ## [1.1.0](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v1.0.1...v1.1.0) (2022-07-20)
 
 
