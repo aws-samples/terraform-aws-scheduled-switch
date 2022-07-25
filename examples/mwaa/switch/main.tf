@@ -20,7 +20,7 @@ module "mwaa_switch" {
 
 #### (0) Switch Policy for MWAA ####
 resource "aws_iam_policy" "mwaa_switch_policy" {
-  name        = "MWAASwitchPolicy"
+  name_prefix = "MWAASwitchPolicy"
   description = "A policy for MWAA operations."
 
   policy = <<EOF

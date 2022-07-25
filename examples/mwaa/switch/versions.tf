@@ -5,5 +5,9 @@ terraform {
     aws = {
       version = ">= 3.0"
     }
+
+    random = {
+      version = ">= 3.0"
+    }
   }
 }

@@ -41,3 +41,9 @@ go.sum
 # IDE
 .idea
 .DS_Store
+
+# ScoutSuite
+scoutsuite-report
+
+# Py
+venv

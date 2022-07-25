@@ -5,6 +5,10 @@ version: 0.2
 
 env:
   shell: bash
+  parameter-store:
+    TF_INIT: "${TF_INIT_COMMAND_SSM_NAME}"
+    TF_APPLY: "${TF_APPLY_COMMAND_SSM_NAME}"
+    TERRAFORM_VERSION: "${TERRAFORM_VERSION_SSM_NAME}"
 
 phases:
   install:
@@ -19,8 +23,8 @@ phases:
   build:
     commands:
       - cd ${CODEBUILD_SRC_DIR}
-      - bash -c "${TF_INIT_COMMAND}"
-      - bash -c "${TF_APPLY_COMMAND}"
+      - bash -c "${TF_INIT}"
+      - bash -c "${TF_APPLY}"
   post_build:
     commands:
       - echo Switch completed on `date`

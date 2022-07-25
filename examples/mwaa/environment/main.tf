@@ -131,11 +131,11 @@ resource "aws_flow_log" "vpc_flow_logs" {
 }
 
 resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
-  name = "MWAAVPCFlowLogs"
+  name_prefix = "MWAAVPCFlowLogs"
 }
 
 resource "aws_iam_role" "vpc_flow_log_role" {
-  name = "VPCFlowLogRole"
+  name_prefix = "VPCFlowLogRole"
 
   assume_role_policy = <<EOF
 {
@@ -155,7 +155,7 @@ EOF
 }
 
 resource "aws_iam_role_policy" "vpc_flow_log_role_policy" {
-  name = "VPCFlowLogRolePolicy"
+  name_prefix = "VPCFlowLogRolePolicy"
   role = aws_iam_role.vpc_flow_log_role.id
 
   policy = <<EOF
@@ -487,5 +487,13 @@ resource "aws_mwaa_environment" "this" {
   weekly_maintenance_window_start = var.weekly_maintenance_window_start
 
   kms_key = var.kms_key_arn
+
+  depends_on = [
+    aws_vpc.mwaa_vpc,
+    aws_subnet.mwaa_private_subnets,
+    aws_subnet.mwaa_public_subnets,
+    aws_route_table_association.prt_associations,
+    aws_route_table_association.pubrt_associations
+  ]
 }
 
