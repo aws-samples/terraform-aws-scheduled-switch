@@ -124,6 +124,7 @@ resource "aws_iam_role_policy" "switch_codebuild_ssm_policy" {
       "Effect": "Allow",
       "Action": "ssm:GetParameters",
       "Resource": [
+        "${aws_ssm_parameter.tf_version_parameter.arn}",
         "${aws_ssm_parameter.tf_init_parameter.arn}",
         "${aws_ssm_parameter.tf_kill_parameter.arn}",
         "${aws_ssm_parameter.tf_revive_parameter.arn}"
