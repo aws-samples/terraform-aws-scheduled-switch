@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_event_rule" "kill_rule" {
-  name        = "KillEvent"
+  name_prefix        = "KillEvent"
   description = "Scheduled event to kill resources."
   is_enabled  = var.kill_rule_enabled
 
@@ -8,7 +8,7 @@ resource "aws_cloudwatch_event_rule" "kill_rule" {
 }
 
 resource "aws_cloudwatch_event_rule" "revive_rule" {
-  name        = "ReviveEvent"
+  name_prefix        = "ReviveEvent"
   description = "Scheduled event to revive resources."
   is_enabled  = var.revive_rule_enabled
 
@@ -17,7 +17,6 @@ resource "aws_cloudwatch_event_rule" "revive_rule" {
 }
 
 resource "aws_cloudwatch_event_target" "kill_resources" {
-  target_id = "KillResources"
   arn       = aws_codebuild_project.switch_codebuild_project.arn
   input     = <<DOC
 {
@@ -46,7 +45,6 @@ DOC
 }
 
 resource "aws_cloudwatch_event_target" "revive_resources" {
-  target_id = "ReviveResources"
   arn       = aws_codebuild_project.switch_codebuild_project.arn
   input     = <<DOC
 {
