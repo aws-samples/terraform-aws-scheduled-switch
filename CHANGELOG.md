@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0](https://github.com/aws-samples/terraform-aws-scheduled-switch/compare/v2.0.1...v3.0.0) (2023-03-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* replace eventbridge rules with scheduler
+
+### Features
+
+* replace eventbridge rules with scheduler ([8f26433](https://github.com/aws-samples/terraform-aws-scheduled-switch/commit/8f26433c78826937da1def72d04422ce1c3247c6))
+
 ### [2.0.1](https://github.com/aws-samples/aws-terraform-scheduled-switch/compare/v2.0.0...v2.0.1) (2022-07-25)
 
 
