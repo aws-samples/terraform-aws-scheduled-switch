@@ -40,10 +40,6 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_cloudwatch_event_rule.kill_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
-| [aws_cloudwatch_event_rule.revive_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
-| [aws_cloudwatch_event_target.kill_resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
-| [aws_cloudwatch_event_target.revive_resources](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
 | [aws_codebuild_project.switch_codebuild_project](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_project) | resource |
 | [aws_codebuild_source_credential.git_credentials](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/codebuild_source_credential) | resource |
 | [aws_iam_policy.codebuild_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_policy) | resource |
@@ -54,6 +50,8 @@ No modules.
 | [aws_iam_role_policy_attachment.codebuild_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.s3_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.switch_additional_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_scheduler_schedule.kill_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
+| [aws_scheduler_schedule.revive_schedule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/scheduler_schedule) | resource |
 | [aws_ssm_parameter.tf_init_parameter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_ssm_parameter.tf_kill_parameter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
 | [aws_ssm_parameter.tf_revive_parameter](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
@@ -68,7 +66,6 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_git_personal_access_token"></a> [git\_personal\_access\_token](#input\_git\_personal\_access\_token) | For GitHub or GitHub Enterprise, this is the personal access token. | `string` | n/a | yes |
 | <a name="input_init_command"></a> [init\_command](#input\_init\_command) | Terraform command used to initialize working directory. | `string` | n/a | yes |
 | <a name="input_kill_command"></a> [kill\_command](#input\_kill\_command) | Terraform command to destroy the target resources. | `string` | n/a | yes |
 | <a name="input_kill_resources_schedule"></a> [kill\_resources\_schedule](#input\_kill\_resources\_schedule) | Schedule expression in the form of cron or rate expressions. Refer to https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html for more details. | `string` | n/a | yes |
@@ -79,8 +76,10 @@ No modules.
 | <a name="input_terraform_version"></a> [terraform\_version](#input\_terraform\_version) | Version of Terraform. | `string` | n/a | yes |
 | <a name="input_tf_backend_bucket"></a> [tf\_backend\_bucket](#input\_tf\_backend\_bucket) | S3 Backend bucket name | `string` | n/a | yes |
 | <a name="input_tf_backend_key"></a> [tf\_backend\_key](#input\_tf\_backend\_key) | S3 object key to terraform state file | `string` | n/a | yes |
-| <a name="input_kill_rule_enabled"></a> [kill\_rule\_enabled](#input\_kill\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
-| <a name="input_revive_rule_enabled"></a> [revive\_rule\_enabled](#input\_revive\_rule\_enabled) | Whether the rule should be enabled. | `string` | `true` | no |
+| <a name="input_git_personal_access_token"></a> [git\_personal\_access\_token](#input\_git\_personal\_access\_token) | For GitHub or GitHub Enterprise, this is the personal access token. | `string` | `null` | no |
+| <a name="input_kill_schedule_state"></a> [kill\_schedule\_state](#input\_kill\_schedule\_state) | Whether the schedule should be enabled or disabled. | `string` | `"ENABLED"` | no |
+| <a name="input_revive_schedule_state"></a> [revive\_schedule\_state](#input\_revive\_schedule\_state) | Whether the schedule should be enabled or disabled. | `string` | `"ENABLED"` | no |
+| <a name="input_schedule_timezone"></a> [schedule\_timezone](#input\_schedule\_timezone) | Timezone in which the scheduling expression is evaluated. | `string` | `"UTC"` | no |
 | <a name="input_switch_additional_policy_arn"></a> [switch\_additional\_policy\_arn](#input\_switch\_additional\_policy\_arn) | ARN of additional IAM policy for CodeBuild. | `string` | `null` | no |
 
 ### Outputs
