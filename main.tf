@@ -4,21 +4,21 @@ resource "random_string" "random" {
 }
 
 resource "aws_ssm_parameter" "tf_version_parameter" {
-  name        = "/tf_switch/tf_version"
+  name        = "/tf_switch/${random_string.random.result}/tf_version"
   description = "The Terraform version."
   type        = "String"
   value       = var.terraform_version
 }
 
 resource "aws_ssm_parameter" "tf_init_parameter" {
-  name        = "/tf_switch/tf_init_command"
+  name        = "/tf_switch/${random_string.random.result}/tf_init_command"
   description = "The Terraform command for initializing the configuration directory."
   type        = "String"
   value       = var.init_command
 }
 
 resource "aws_ssm_parameter" "tf_kill_parameter" {
-  name        = "/tf_switch/tf_kill_command"
+  name        = "/tf_switch/${random_string.random.result}/tf_kill_command"
   description = "The Terraform command for destroying resources."
   type        = "String"
   value       = var.kill_command
@@ -32,6 +32,7 @@ resource "aws_ssm_parameter" "tf_revive_parameter" {
 }
 
 resource "aws_codebuild_source_credential" "git_credentials" {
+  count       = var.git_personal_access_token != "" ? 1 : 0
   auth_type   = "PERSONAL_ACCESS_TOKEN"
   server_type = "GITHUB"
   token       = var.git_personal_access_token

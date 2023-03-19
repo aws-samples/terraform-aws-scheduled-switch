@@ -1,24 +1,19 @@
-resource "aws_cloudwatch_event_rule" "kill_rule" {
+resource "aws_scheduler_schedule" "kill_schedule" {
   name_prefix = "KillEvent-"
-  description = "Scheduled event to kill resources."
-  is_enabled  = var.kill_rule_enabled
+  state       = var.kill_schedule_state
 
-  schedule_expression = var.kill_resources_schedule
+  flexible_time_window {
+    mode = "OFF"
+  }
 
-}
+  schedule_expression          = var.kill_resources_schedule
+  schedule_expression_timezone = var.schedule_timezone
 
-resource "aws_cloudwatch_event_rule" "revive_rule" {
-  name_prefix = "ReviveEvent-"
-  description = "Scheduled event to revive resources."
-  is_enabled  = var.revive_rule_enabled
+  target {
+    arn      = aws_codebuild_project.switch_codebuild_project.arn
+    role_arn = aws_iam_role.codebuild_role.arn
 
-  schedule_expression = var.revive_resources_schedule
-
-}
-
-resource "aws_cloudwatch_event_target" "kill_resources" {
-  arn      = aws_codebuild_project.switch_codebuild_project.arn
-  input    = <<DOC
+    input = <<DOC
 {
   "environmentVariablesOverride": [
     {
@@ -39,14 +34,26 @@ resource "aws_cloudwatch_event_target" "kill_resources" {
   ]
 }
 DOC
-  rule     = aws_cloudwatch_event_rule.kill_rule.name
-  role_arn = aws_iam_role.codebuild_role.arn
 
+  }
 }
 
-resource "aws_cloudwatch_event_target" "revive_resources" {
-  arn      = aws_codebuild_project.switch_codebuild_project.arn
-  input    = <<DOC
+resource "aws_scheduler_schedule" "revive_schedule" {
+  name_prefix = "ReviveEvent-"
+  state       = var.revive_schedule_state
+
+  flexible_time_window {
+    mode = "OFF"
+  }
+
+  schedule_expression          = var.revive_resources_schedule
+  schedule_expression_timezone = var.schedule_timezone
+
+  target {
+    arn      = aws_codebuild_project.switch_codebuild_project.arn
+    role_arn = aws_iam_role.codebuild_role.arn
+
+    input = <<DOC
 {
   "environmentVariablesOverride": [
     {
@@ -67,9 +74,8 @@ resource "aws_cloudwatch_event_target" "revive_resources" {
   ]
 }
 DOC
-  rule     = aws_cloudwatch_event_rule.revive_rule.name
-  role_arn = aws_iam_role.codebuild_role.arn
 
+  }
 }
 
 data "aws_iam_policy_document" "codebuild_trust" {
@@ -78,7 +84,7 @@ data "aws_iam_policy_document" "codebuild_trust" {
 
     principals {
       type        = "Service"
-      identifiers = ["events.amazonaws.com"]
+      identifiers = ["scheduler.amazonaws.com"]
     }
   }
 }
