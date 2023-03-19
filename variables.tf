@@ -14,6 +14,7 @@ variable "git_personal_access_token" {
   type        = string
   description = "For GitHub or GitHub Enterprise, this is the personal access token."
   sensitive   = true
+  default     = null
 }
 variable "source_type" {
   type        = string
@@ -64,14 +65,20 @@ variable "revive_command" {
   description = "Terraform command to revive/recreate the target resources."
 }
 
-variable "kill_rule_enabled" {
+variable "kill_schedule_state" {
   type        = string
-  description = "Whether the rule should be enabled."
-  default     = true
+  description = "Whether the schedule should be enabled or disabled."
+  default     = "ENABLED"
 }
 
-variable "revive_rule_enabled" {
+variable "revive_schedule_state" {
   type        = string
-  description = "Whether the rule should be enabled."
-  default     = true
+  description = "Whether the schedule should be enabled or disabled."
+  default     = "ENABLED"
+}
+
+variable "schedule_timezone" {
+  type        = string
+  description = "Timezone in which the scheduling expression is evaluated."
+  default     = "UTC"
 }
