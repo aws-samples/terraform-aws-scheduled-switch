@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [3.0.2](https://github.com/aws-samples/terraform-aws-scheduled-switch/compare/v3.0.1...v3.0.2) (2023-07-13)
+
+
+### Bug Fixes
+
+* add iam actions ([1325484](https://github.com/aws-samples/terraform-aws-scheduled-switch/commit/13254844716ac71a6ea81e908e83c70dbdcbad0c))
+
 ### [3.0.1](https://github.com/aws-samples/terraform-aws-scheduled-switch/compare/v3.0.0...v3.0.1) (2023-07-13)
 
 
