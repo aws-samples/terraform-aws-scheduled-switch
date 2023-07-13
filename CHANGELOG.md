@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+### [3.0.1](https://github.com/aws-samples/terraform-aws-scheduled-switch/compare/v3.0.0...v3.0.1) (2023-07-13)
+
+
+### Bug Fixes
+
+* update default cron and dependencies ([55e245f](https://github.com/aws-samples/terraform-aws-scheduled-switch/commit/55e245f0663664c8ae0ec9d06e3eee4692bea242))
+
 ## [3.0.0](https://github.com/aws-samples/terraform-aws-scheduled-switch/compare/v2.0.1...v3.0.0) (2023-03-19)
 
 
