@@ -156,7 +156,7 @@ EOF
 
 resource "aws_iam_role_policy" "vpc_flow_log_role_policy" {
   name_prefix = "VPCFlowLogRolePolicy"
-  role = aws_iam_role.vpc_flow_log_role.id
+  role        = aws_iam_role.vpc_flow_log_role.id
 
   policy = <<EOF
 {
@@ -493,7 +493,9 @@ resource "aws_mwaa_environment" "this" {
     aws_subnet.mwaa_private_subnets,
     aws_subnet.mwaa_public_subnets,
     aws_route_table_association.prt_associations,
-    aws_route_table_association.pubrt_associations
+    aws_route_table_association.pubrt_associations,
+    aws_route.pub_route_igw,
+    aws_route.prv_route_nat,
   ]
 }
 
