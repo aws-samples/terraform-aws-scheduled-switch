@@ -70,7 +70,9 @@ resource "aws_iam_policy" "mwaa_switch_policy" {
             "ec2:DescribeAvailabilityZones",
             "ec2:DescribeVpcClassicLink",
             "ec2:DescribeVpcClassicLinkDnsSupport",
-            "ec2:DescribeVpcAttribute"
+            "ec2:DescribeVpcAttribute",
+            "ec2:DescribeInternetGateways",
+            "ec2:DescribeNatGateways"
         ],
         "Resource": "*"
     },
